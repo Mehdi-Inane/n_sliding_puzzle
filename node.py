@@ -17,6 +17,27 @@ class Node():
             node_list.append(Node(state,action,self.n +1,self,self.heuristic))
         return node_list
     
+    def heuristicNull(self):
+        return 0
+
+    def manhattan(self, x1, y1, x2, y2):
+            return abs(x1 - x2) + abs(y1 - y2)
+                
+    #number of displaced tiles     
+    def calculate_fitness(self):
+            if self.heuristic== "misplaced_tiles":
+                for current_state, goal_state in zip(self.state.current_state, self.state.goal_state):
+                    if current_state != current_state:
+                        self.n+= 1
+            elif self.heuristic == "manhattan":
+                for current_state in self.state:
+                    current_index = self.state.index(current_state)
+                    goal_index = self.goal_state.index(current_state)
+                    cur_i, cur_j = current_index // int(np.sqrt(len(self.state))), current_index % int(np.sqrt(len(self.state)))
+                    goal_i, goal_j = goal_index// int(np.sqrt(len(self.state))), goal_index % int(np.sqrt(len(self.state)))
+                    self.n += self.manhattan(cur_i, cur_j, goal_i, goal_j)
+            else:
+                print('Unknown heuristic function is being used.')
 
 
 node = Node(Puzzle([[2,1],[3,0]],[[2,1],[3,0]]),heuristic = 1)
