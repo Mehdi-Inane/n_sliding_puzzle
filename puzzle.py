@@ -83,14 +83,3 @@ class Puzzle():
         return Puzzle(tmp,copy.deepcopy(self.goal_state))
     
         
-        
-pz = Puzzle([[2,1],[3,0]],[[2,1],[3,0]])
-print(pz.show_game())
-print(pz.available_actions())
-st = []
-for elem in pz.available_actions():
-    st.append(pz.act((elem)))
-for elem in st:
-    print(elem.show_game())
-print(pz.show_game())
-print("hi")
