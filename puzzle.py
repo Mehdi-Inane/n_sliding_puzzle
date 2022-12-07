@@ -93,3 +93,4 @@ for elem in pz.available_actions():
 for elem in st:
     print(elem.show_game())
 print(pz.show_game())
+print("hi")
