@@ -1,13 +1,19 @@
 from puzzle import *
 
-
+def find_elem(mat,elem):
+    for i in range(len(mat)):
+        for j in range(len(mat)):
+            if mat[i][j]==elem:
+                return i,j
+    return None 
+    
 class Node():
-    def __init__(self,state,action = None,nb_iter = 0,parent_node= None,heuristic = 0):
+    def __init__(self,state,action = None,nb_iter = 0,parent_node= None,heuristic = " "):
         self.state = state
         self.action = action
         self.n = nb_iter
         self.parent_node = parent_node
-        self.heuristic = heuristic
+        self.heuristic = heuristic 
     
     def expand(self):
         available_actions = self.state.available_actions()
@@ -17,26 +23,30 @@ class Node():
             node_list.append(Node(state,action,self.n +1,self,self.heuristic))
         return node_list
     
+    def __eq__(self,node):
+        if self.state == node.state and self.action == node.action and self.n == node.n and self.parent_node == node.parent_node:
+            return True
+        return False
     def heuristicNull(self):
         return 0
 
     def manhattan(self, x1, y1, x2, y2):
             return abs(x1 - x2) + abs(y1 - y2)
+           
                 
     #number of displaced tiles     
     def calculate_fitness(self):
             if self.heuristic== "misplaced_tiles":
                 for current_state, goal_state in zip(self.state.current_state, self.state.goal_state):
-                    if current_state != current_state:
+                    if current_state != goal_state:
                         self.n+= 1
             elif self.heuristic == "manhattan":
-                for current_state in self.state:
-                    current_index = self.state.index(current_state)
-                    goal_index = self.goal_state.index(current_state)
-                    cur_i, cur_j = current_index // int(np.sqrt(len(self.state))), current_index % int(np.sqrt(len(self.state)))
-                    goal_i, goal_j = goal_index// int(np.sqrt(len(self.state))), goal_index % int(np.sqrt(len(self.state)))
-                    self.n += self.manhattan(cur_i, cur_j, goal_i, goal_j)
+                for i in range(len(self.state.current_state )):
+                    for j in range(len(self.state.current_state )):
+                        x,y=find_elem(self.state.goal_state,self.state.current_state[i][j])
+                        self.n+=self.manhattan(i, j, x, y) 
             else:
+                self.n+=0
                 print('Unknown heuristic function is being used.')
 
 
