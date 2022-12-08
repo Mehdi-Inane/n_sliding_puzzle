@@ -1,5 +1,5 @@
 from puzzle import *
-
+import copy
 def find_elem(mat,elem):
     for i in range(len(mat)):
         for j in range(len(mat)):
@@ -21,7 +21,7 @@ class Node():
         node_list = []
         for action in available_actions:
             state = self.state.act(action)
-            node_list.append(Node(state.current_state,goal_state = self.state.goal_state,action = action,nb_iter = self.n +1,parent_node = self,heuristic = self.heuristic))
+            node_list.append(Node(state.current_state,goal_state = self.state.goal_state,action = action,nb_iter = copy.deepcopy(self.n) +1,parent_node = self,heuristic = self.heuristic))
         return node_list
     
     def __eq__(self,node):

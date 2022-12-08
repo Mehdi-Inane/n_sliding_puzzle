@@ -17,22 +17,29 @@ class PriorityQueue:
         return node_min
 
     def isEmpty(self):
-        if self.tree.node:
+        if self.tree:
             return False
         return True
     
 
 
 
-pt_queue = PriorityQueue()
-init_state,goal_state = [[1,2],[3,4]],[[1,2],[3,4]]
+"""pt_queue = PriorityQueue()
+init_state,goal_state = [[2,1],[3,0]],[[1,2],[3,0]]
 node = Node(init_state,goal_state)
-node_2 = Node([[1,2],[4,0]],[[1,2],[3,4]])
+print(node.n)
 pt_queue.insert(node)
-pt_queue.insert(node_2)
+node_list = node.expand()
+for nod in node_list:
+    pt_queue.insert(nod)
 print(pt_queue.tree.left)
-pt_queue.pop()
+print("treeval",pt_queue.tree.value)
+print(pt_queue.pop().n)
+print(minValueNode(pt_queue.tree).n)
+
+print(node.n)
 #pt_queue.pop()
 tree = pt_queue.tree
-print(tree.left)
-print(tree.right)
+print(tree)
+pt_queue.pop()
+print(tree.left)"""

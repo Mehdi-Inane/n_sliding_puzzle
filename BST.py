@@ -14,7 +14,8 @@ class BST():
 			self.node = node
 			self.value = node.n
 		else:
-			if self.node.n <= node.n:
+			if self.node.n < node.n:
+
 				if self.right:
 					self.right.insert(node)
 				else:
