@@ -34,14 +34,14 @@ def minValueNode(node):
 def deleteNode(root, node):
 	if root is None:
 		return root
-	if node.n < root.value:
+	if node.n < root.node.n:
 		root.left = deleteNode(root.left,node)
 		return root
-	elif(node.n > root.value):
+	elif(node.n > root.node.n):
 		root.right = deleteNode(root.right,node)
 		return root
 	else:
-		if root.value == node.n:
+		if root.node == node:
 			if root.left is None:
 				temp = root.right
 				root = None
