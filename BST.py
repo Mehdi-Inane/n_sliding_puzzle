@@ -1,43 +1,47 @@
-class Node():
+class BST():
 
 	def __init__(self,node=None):
 		self.left = None
 		self.right = None
 		self.node = node
-		self.value = self.node.n
-		
-	def insert(self,value):
-		if self is None:
-			return Node(value)
+		if node:
+			self.value = self.node.n
 		else:
-			if self.node.n <= value.n:
+			self.value = None
+		
+	def insert(self,node):
+		if self.node is None:
+			self.node = node
+			self.value = node.n
+		else:
+			if self.node.n <= node.n:
 				if self.right:
-					self.right.insert(value)
+					self.right.insert(node)
 				else:
-					self.right = Node(value)
+					self.right = BST(node)
 			else:
 				if self.left:
-					self.left.insert(value)
+					self.left.insert(node)
 				else:
-					self.left = Node(value)
+					self.left = BST(node)
 
 def minValueNode(node):
     current = node
     while(current.left is not None):
         current = current.left
-    return current	
+    return current.node	
     			
 def deleteNode(root, node):
 	if root is None:
 		return root
-	if node.value < root.value:
+	if node.n < root.value:
 		root.left = deleteNode(root.left,node)
 		return root
-	elif(node.value > root.value):
+	elif(node.n > root.value):
 		root.right = deleteNode(root.right,node)
 		return root
 	else:
-		if root.value == node.value:
+		if root.value == node.n:
 			if root.left is None:
 				temp = root.right
 				root = None
@@ -47,8 +51,8 @@ def deleteNode(root, node):
 				root = None
 				return temp
 			temp = minValueNode(root.right)
-			root.value = temp.value
-			root.node = temp.node
+			root.value = temp.n
+			root.node = temp
 			root.right = deleteNode(root.right, temp)
 		else:
 			root.left = deleteNode(root.left,node)
@@ -69,7 +73,6 @@ class Test():
 		self.s = s
 	def __eq__(self,node):
 		if self.s == node.s and self.n == self.n:
-			print('ze here')
 			return True
 		return False
 def pop(root):
@@ -77,8 +80,8 @@ def pop(root):
 	root = deleteNode(root,node_min)
 	return node_min	
 		
-test = Test(1,'n')
-root = Node(test)
+"""test = Test(1,'n')
+root = BST(test)
 root.insert(Test(6,'s'))
 root.insert(Test(8,'p'))
 root.insert(Test(4,'u'))
@@ -87,4 +90,4 @@ root.insert(Test(9,'7'))
 root.insert(Test(7,'j'))
 root = deleteNode(root,Node(Test(6,'k')))
 print(pop(root).value)
-print(inorder_reverse(root))
+print(inorder_reverse(root))"""

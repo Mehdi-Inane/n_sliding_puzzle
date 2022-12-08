@@ -29,7 +29,17 @@ class Puzzle():
     def copy(self):
         return type(self)(self.current_state, self.goal_state)
                 
-            
+    def is_goal_state(self):
+        for i in range(self.dim):
+            for j in range(self.dim):
+                if self.current_state[i][j] != self.goal_state[i][j]:
+                    return False
+        return True
+    
+    def __str__(self):
+        return str(self.current_state)
+
+
     
     def show_game(self):
         print("Current state of the game : \n")

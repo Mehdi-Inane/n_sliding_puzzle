@@ -8,19 +8,20 @@ def find_elem(mat,elem):
     return None 
     
 class Node():
-    def __init__(self,state,action = None,nb_iter = 0,parent_node= None,heuristic = " "):
-        self.state = state
+    def __init__(self,state,goal_state,action = None,nb_iter = 0,parent_node= None,heuristic = " "):
+        self.state = Puzzle(state,goal_state)
         self.action = action
         self.n = nb_iter
         self.parent_node = parent_node
         self.heuristic = heuristic 
+        self.calculate_fitness()
     
     def expand(self):
         available_actions = self.state.available_actions()
         node_list = []
         for action in available_actions:
             state = self.state.act(action)
-            node_list.append(Node(state,action,self.n +1,self,self.heuristic))
+            node_list.append(Node(state.current_state,goal_state = self.state.goal_state,action = action,nb_iter = self.n +1,parent_node = self,heuristic = self.heuristic))
         return node_list
     
     def __eq__(self,node):
@@ -47,14 +48,14 @@ class Node():
                         self.n+=self.manhattan(i, j, x, y) 
             else:
                 self.n+=0
-                print('Unknown heuristic function is being used.')
+                #print('Unknown heuristic function is being used.')
 
 
-node = Node(Puzzle([[2,1],[3,0]],[[2,1],[3,0]]),heuristic = 1)
+"""node = Node(Puzzle([[2,1],[3,0]],[[2,1],[3,0]]),heuristic = 1)
 new_nodes = node.expand()
 print(new_nodes)
 for node in new_nodes:
-    print(node.state.show_game())
+    print(node.state.show_game())"""
 
             
 
