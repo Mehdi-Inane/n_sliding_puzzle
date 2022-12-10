@@ -8,7 +8,7 @@ def find_elem(mat,elem):
     return None 
     
 class Node():
-    def __init__(self,state,goal_state,action = None,nb_iter = 0,parent_node= None,heuristic = " "):
+    def __init__(self,state,goal_state,action = None,nb_iter = 0,parent_node= None,heuristic = "manhattan"):
         self.state = Puzzle(state,goal_state)
         self.action = action
         self.n = nb_iter
@@ -28,6 +28,7 @@ class Node():
         if self.state == node.state and self.action == node.action and self.n == node.n and self.parent_node == node.parent_node:
             return True
         return False
+        
     def heuristicNull(self):
         return 0
 
