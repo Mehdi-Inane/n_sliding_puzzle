@@ -30,6 +30,9 @@ class Astar:
             #If the node contains the goal state
             if popped_node.state.is_goal_state():
                 print("ok")
+                print(popped_node.state.show_game())
+                print(show_family(popped_node))
+                #Show the different steps to find the solution
                 break
             neighbours = popped_node.expand()
             for son in neighbours:
@@ -38,7 +41,7 @@ class Astar:
 
 #"manhattan"
 #"misplaced_tiles"
-solver = Astar([[12,1,2,15],[11,6,5,8],[7,10,9,4],[0,13,14,3]],[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]],"manhattan")
+solver = Astar([[1,2,3],[6,0,8],[5,4,7]],[[1,2,3],[4,5,6],[7,8,0]],"manhattan")
 #solver = Astar([[0,3,6],[1,7,2],[5,4,8]],[[1,2,3],[4,5,6],[7,8,0]],"misplaced_tiles")
 #solver = Astar([[5,3,6],[2,1,8],[0,4,7]],[[1,2,3],[4,5,6],[7,8,0]],"manhattan")
 solver.solve()

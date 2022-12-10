@@ -34,6 +34,8 @@ class Node():
 
     def manhattan(self, x1, y1, x2, y2):
             return abs(x1 - x2) + abs(y1 - y2)
+    
+
            
                 
     #number of displaced tiles     
@@ -50,6 +52,44 @@ class Node():
             else:
                 self.n+=0
                 #print('Unknown heuristic function is being used.')
+
+
+def get_action(state,x_1,y_1):
+    x,y = state.empty_tile
+    if x_1 == x-1:
+        return "left"
+    if x_1 == x+1:
+        return "right"
+    if y_1 == y-1:
+        return "up"
+    if y_1 == y+1:
+        return "down"
+
+
+def show_family(node):
+    #Storing the solution
+    curr = node
+    cost = node.n
+    ret = []
+    while curr.parent_node:
+        print("curr")
+        ret.append(curr.state.show_game())
+        curr = curr.parent_node
+    if curr:
+        ret.append(curr)
+    print("Final cost",cost)
+    ret = list(reversed(ret))
+    for i in range(len(ret)):
+        nod = ret[i]
+        print("step",i)
+        if i>= 1:
+            temp = ret[i-1]
+            x,y = node.action
+            print("Action",get_action(temp.state,x,y))
+        print(nod.state.show_game())
+
+    
+
 
 
 """node = Node(Puzzle([[2,1],[3,0]],[[2,1],[3,0]]),heuristic = 1)
