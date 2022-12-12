@@ -73,7 +73,7 @@ def show_family(node):
     ret = []
     while curr.parent_node:
         print("curr")
-        ret.append(curr.state.show_game())
+        ret.append(curr)
         curr = curr.parent_node
     if curr:
         ret.append(curr)
