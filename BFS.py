@@ -17,13 +17,14 @@ class BFS:
 		debut_node=Node(self.init_state,self.goal_state,heuristic=None)
 		queue.put(debut_node)
 		visited.add(str(debut_node.state))
-		parent = dict()
-		parent[str(self.init_state)] = None
+		#parent = dict()
+		#parent[str(self.init_state)] = None
 		path_found = False
 		while not queue.empty():
 			popped_node = queue.get()
 			#popped_node.state.show_game()
 			if popped_node.state.is_goal_state():
+				print(show_family(popped_node))
 				print("okBFS")
 				path_found = True
 				break
@@ -31,7 +32,7 @@ class BFS:
 				if str(node_next.state) not in visited:
 					queue.put(node_next)
 					
-					parent[str(node_next.state)] = popped_node
+					#parent[str(node_next.state)] = popped_node
 					visited.add(str(node_next.state))
                 	
         #PATH RECONSTRUCITON        	
@@ -48,7 +49,7 @@ class BFS:
 		#return path 
     	#for (node_next, w) in self.m_adj_list[current_node]:
     	
-#solver = BFS([[12,1,2,15],[11,6,5,8],[7,10,9,4],[0,13,14,3]],[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
-solver = BFS([[0,3,6],[1,7,2],[5,4,8]],[[1,2,3],[4,5,6],[7,8,0]])
-#solver = Astar([[5,3,6],[2,1,8],[0,4,7]],[[1,2,3],[4,5,6],[7,8,0]])
+solver = BFS([[12,1,2,15],[11,6,5,8],[7,10,9,4],[0,13,14,3]],[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]])
+#solver = BFS([[0,3,6],[1,7,2],[5,4,8]],[[1,2,3],[4,5,6],[7,8,0]])
+#solver = BFS([[5,3,6],[2,1,8],[0,4,7]],[[1,2,3],[4,5,6],[7,8,0]])
 solver.solve()

@@ -11,33 +11,83 @@ class Node():
     def __init__(self,state,goal_state,action = None,nb_iter = 0,parent_node= None,heuristic = "manhattan"):
         self.state = Puzzle(state,goal_state)
         self.action = action
+        self.depth=nb_iter
         self.n = nb_iter
         self.parent_node = parent_node
         self.heuristic = heuristic 
         self.calculate_fitness()
+        
+    #def isExp(self, exp):
+        #state = self.state
+        #for i in exp:
+            #if (state == i.state) and (i.n<=self.n):
+                
+                #print("ICIIIIII",state)
+               # return i
+        #return None
     
     def expand(self):
         available_actions = self.state.available_actions()
+       # print(self.state.available_actions())
         node_list = []
         for action in available_actions:
             state = self.state.act(action)
-            node_list.append(Node(state.current_state,goal_state = self.state.goal_state,action = action,nb_iter = copy.deepcopy(self.n) +1,parent_node = self,heuristic = self.heuristic))
+            node_list.append(Node(state.current_state,goal_state = self.state.goal_state,action = action,nb_iter = copy.deepcopy(self.depth) +1,parent_node = self,heuristic = self.heuristic))
         return node_list
     
     def __eq__(self,node):
         if self.state == node.state and self.action == node.action and self.n == node.n and self.parent_node == node.parent_node:
             return True
         return False
-        
+
+    def __lt__(self,node):
+        if self.n < node.n:
+            return True
+        return False
+
+    #def heuristicNull(self):
+       # return 0
+
+    #def manhattan(self, x1, y1, x2, y2):
+           # return abs(x1 - x2) + abs(y1 - y2)
+            
+    #def total_manhattan(self):
+        #count=0
+        #for i in range(len(self.state.current_state )):
+                   # for j in range(len(self.state.current_state )):
+                      #  x,y=find_elem(self.state.goal_state,self.state.current_state[i][j])
+                       # self.n+=self.manhattan(i, j, x, y) 
+                        #count+=1
+        #return count
+    
+    #def misplaced_tiles(self):
+        """ Calculates the different between the given puzzles """
+        #count=0
+        #for i in range(0,len(self.state.current_state )):
+           # for j in range(0,len(self.state.current_state)):
+              #  if self.state.current_state[i][j] != self.state.goal_state[i][j] and self.state.current_state[i][j] != 0:
+                   # self.n+= 1
+                    #count+=1
+        #return count
+                
+    #number of displaced tiles     
+    #def calculate_fitness(self):
+            #if self.heuristic== "misplaced_tiles":
+                #self.n=self.misplaced_tiles()
+              # self.misplaced_tiles()
+            #elif self.heuristic == "manhattan":
+                #self.n=self.total_manhattan()
+               # self.total_manhattan()
+            #else:
+               # self.n+=0
+                
+                
     def heuristicNull(self):
         return 0
 
     def manhattan(self, x1, y1, x2, y2):
             return abs(x1 - x2) + abs(y1 - y2)
     
-
-           
-                
     #number of displaced tiles     
     def calculate_fitness(self):
             if self.heuristic== "misplaced_tiles":
@@ -52,7 +102,6 @@ class Node():
             else:
                 self.n+=0
                 #print('Unknown heuristic function is being used.')
-
 
 def get_action(state,x_1,y_1):
     x,y = state.empty_tile
@@ -86,7 +135,11 @@ def show_family(node):
             temp = ret[i-1]
             x,y = node.action
             print("Action",get_action(temp.state,x,y))
-        print(nod.state.show_game())
+        if(node.state.dim)==3:
+            print(nod.state.print_puzzle())
+        else:
+            print(nod.state.show_game())
+            
 
     
 

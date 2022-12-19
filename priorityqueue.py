@@ -10,6 +10,7 @@ class PriorityQueue:
         
     def pop(self):
         node_min = minValueNode(self.tree)
+        #print(node_min)
         #print("current prio queue")
         self.tree = deleteNode(self.tree,node_min)
         if not self.tree:
