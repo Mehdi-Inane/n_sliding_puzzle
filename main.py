@@ -21,10 +21,10 @@ def main():
 
     else:
         print("For each row of the puzzle, input the numbers separated by spaces then press enter")
+        init_state = []
         for i in range(nb_tiles):
             row = input()
             row = row.split()
-            init_state = []
             init_state.append([])
             for j in range(nb_tiles):
                 init_state[i].append(int(row[j]))
