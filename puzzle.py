@@ -9,6 +9,7 @@ def find_elem(mat,elem):
     return None 
 
 import copy
+import random
 def check_if_square(n):
     if int(math.sqrt(n) + 0.01)**2 == n:
         return True
@@ -18,10 +19,9 @@ def check_if_square(n):
 class Puzzle():
     def __init__(self,initial_state,goal_state,nb_iter = 0,parent_puzzle= None,heuristic = "manhattan"):
         self.current_state = initial_state
-       # print(self.current_state)
         self.goal_state = goal_state
         self.heuristic = heuristic
-        self.dim = length_hint(self.current_state)
+        self.dim = len(initial_state)
         for i in range(self.dim):
             for j in range(self.dim):
                 if self.current_state[i][j]==0:
@@ -103,7 +103,8 @@ class Puzzle():
                     tmp[action[0]][action[1]] = 0
                     break
         return Puzzle(tmp,self.goal_state)
-        
+
+
     def print_puzzle(self):
         left_down= '\u2514'
         right_down= '\u2518'
@@ -138,5 +139,35 @@ class Puzzle():
             else:
                 print(m_line)
 
+def get_goal_state(nb_tiles):
+        #Starting from the goal state
+    init_state = []
+    cpt = 1
+    for i in range(nb_tiles):
+        init_state.append([])
+        for j in range(nb_tiles):
+            if (i == nb_tiles -1) and (j == nb_tiles -1):
+                init_state[i].append(0)
+                break
+            init_state[i].append(cpt)
+            cpt += 1
+    return init_state
+   
                 
+
+
+def generate_random(nb_tiles,nb_moves):
+    init_state = get_goal_state(nb_tiles)
+    goal_state = copy.deepcopy(init_state)
+    puz = Puzzle(init_state,goal_state)
+    #Generating random actions
+    visited_states = set()
+    visited_states.add(str(puz))
+    for i in range(nb_moves):
+        while(str(puz) in visited_states):
+            actions = puz.available_actions()
+            rand_action = actions[random.randint(0,len(actions) - 1)]
+            puz = puz.act(rand_action)
+        visited_states.add(str(puz))
+    return puz
 

@@ -16,19 +16,9 @@ class Node():
         self.parent_node = parent_node
         self.heuristic = heuristic 
         self.calculate_fitness()
-        
-    #def isExp(self, exp):
-        #state = self.state
-        #for i in exp:
-            #if (state == i.state) and (i.n<=self.n):
-                
-                #print("ICIIIIII",state)
-               # return i
-        #return None
     
     def expand(self):
         available_actions = self.state.available_actions()
-       # print(self.state.available_actions())
         node_list = []
         for action in available_actions:
             state = self.state.act(action)
@@ -121,7 +111,6 @@ def show_family(node):
     cost = node.n
     ret = []
     while curr.parent_node:
-        print("curr")
         ret.append(curr)
         curr = curr.parent_node
     if curr:

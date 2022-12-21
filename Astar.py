@@ -17,20 +17,14 @@ class Astar:
         explored_states = set()
         pt_queue = PriorityQueue()
         debut_node = Node(self.init_state,self.goal_state,heuristic=self.heuristic)
-       # pt_queue.insert(debut_node)
         pt_queue.put(debut_node)
-        #while not pt_queue.isEmpty():
         while not pt_queue.empty():
-            #popped_node = pt_queue.pop()
             popped_node = pt_queue.get()
-
             #If the node was already explored
             if str(popped_node.state) in explored_states:
                 continue
             else:
-                explored_states.add(str(popped_node.state))
-                #popped_node.state.show_game()
-            
+                explored_states.add(str(popped_node.state))            
             #If the node contains the goal state
             if popped_node.state.is_goal_state():
                 print("ok")
@@ -128,8 +122,8 @@ class Astar:
 #solver = Astar([[5,3,6],[2,1,8],[0,4,7]],[[1,2,3],[4,5,6],[7,8,0]],"manhattan")
 #solver = Astar([[12,1,2,15],[11,6,5,8],[7,10,9,4],[0,13,14,3]],[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]],"manhattan")
 #solver = Astar([[12,1,2,15],[11,6,5,8],[7,10,9,4],[0,13,14,3]],[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]],"manhattan")
-solver = Astar([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,0,15]],[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]],"manhattan")
-solver.solve()
+#solver = Astar([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,0,15]],[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]],"manhattan")
+#solver.solve()
 #solver.astar()
 #solver.solvee()
 
