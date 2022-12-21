@@ -4,6 +4,7 @@ from puzzle import *
 from bi_search_astar import *
 from BFS import *
 import time
+import numpy as np
 
 
 def main():
@@ -27,6 +28,7 @@ def main():
             init_state.append([])
             for j in range(nb_tiles):
                 init_state[i].append(int(row[j]))
+        init_state = np.array(init_state)
         goal_state = get_goal_state(nb_tiles)
     print("Which heuristic ? manhattan / misplaced_tiles")
     heuristic = input()

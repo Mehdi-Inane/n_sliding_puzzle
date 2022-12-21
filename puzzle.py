@@ -1,6 +1,10 @@
 import math
 from operator import length_hint 
 from colorama import Fore, Back, Style
+import numpy as np
+
+
+
 def find_elem(mat,elem):
     for i in range(len(mat)):
         for j in range(len(mat)):
@@ -21,7 +25,7 @@ class Puzzle():
         self.current_state = initial_state
         self.goal_state = goal_state
         self.heuristic = heuristic
-        self.dim = len(initial_state)
+        self.dim = initial_state.shape[0]
         for i in range(self.dim):
             for j in range(self.dim):
                 if self.current_state[i][j]==0:
@@ -29,23 +33,10 @@ class Puzzle():
                     break
 
     def __eq__(self,puzzle):
-        same = True
-        if self.dim == puzzle.dim:
-            for i in range(self.dim):
-                for j in range(self.dim):
-                    if self.current_state[i][j] != puzzle.current_state[i][j]:
-                        return False
-                    break
-        return True
-    def copy(self):
-        return type(self)(self.current_state, self.goal_state)
+        return np.array_equal(self.current_state,puzzle.current_state)
                 
     def is_goal_state(self):
-        for i in range(self.dim):
-            for j in range(self.dim):
-                if self.current_state[i][j] != self.goal_state[i][j]:
-                    return False
-        return True
+        return np.array_equal(self.current_state,self.goal_state)
     
     def __str__(self):
         return str(self.current_state)
@@ -94,14 +85,10 @@ class Puzzle():
         return available_actions
     
     def act(self,action):
-        tmp = copy.deepcopy(self.current_state)
-        #tmp = self.current_state
-        for i in range(len(self.current_state)):
-            for j in range(len(self.current_state)):
-                if [i,j] == self.empty_tile:
-                    tmp[i][j] = tmp[action[0]][action[1]]
-                    tmp[action[0]][action[1]] = 0
-                    break
+        tmp = np.copy(self.current_state)
+        i,j = self.empty_tile[0],self.empty_tile[1]
+        tmp[i][j] = tmp[action[0]][action[1]]
+        tmp[action[0]][action[1]] = 0
         return Puzzle(tmp,self.goal_state)
 
 
@@ -151,14 +138,14 @@ def get_goal_state(nb_tiles):
                 break
             init_state[i].append(cpt)
             cpt += 1
-    return init_state
+    return np.array(init_state)
    
                 
 
 
 def generate_random(nb_tiles,nb_moves):
     init_state = get_goal_state(nb_tiles)
-    goal_state = copy.deepcopy(init_state)
+    goal_state = np.copy(init_state)
     puz = Puzzle(init_state,goal_state)
     #Generating random actions
     visited_states = set()
