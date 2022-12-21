@@ -23,11 +23,14 @@ class BiSearch:
         goal_node = Node(self.goal_state,self.init_state,heuristic=self.heuristic)
         self.src_queue.put(debut_node)
         self.dest_queue.put(goal_node)
+        queue_src_size = []
+        queue_dest_size = []
         while not (self.src_queue.empty() or self.dest_queue.empty()):
             #Checking if a common state is found
             if len(self.src_visited.intersection(self.dest_visited)) != 0:
                 print("ok")
                 break
+            queue_src_size.append(self.src_queue.qsize())
             popped_node = self.src_queue.get()
             if str(popped_node.state) not in self.src_visited:
                 self.src_visited.add(str(popped_node.state))
@@ -36,6 +39,7 @@ class BiSearch:
                     if str(son.state) in self.src_visited:
                         continue
                     self.src_queue.put(son)
+            queue_dest_size.append(self.dest_queue.qsize())
             popped_node = self.dest_queue.get()
             if str(popped_node.state) not in self.dest_visited:
                 self.dest_visited.add(str(popped_node.state))
@@ -44,8 +48,8 @@ class BiSearch:
                     if str(son.state) in self.dest_visited:
                         continue
                     self.dest_queue.put(son)
-            
-
+        max_number1,max_number2 = max(queue_src_size),max(queue_dest_size)
+        return max_number1,max_number2
 
 
 """lis = [[1,2,3],[4,5,6],[7,8,0]]

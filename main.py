@@ -18,19 +18,27 @@ def main():
         puzzle = generate_random(nb_tiles,nb_shuffles)
         init_state = puzzle.current_state
         goal_state = puzzle.goal_state
-
     else:
-        print("For each row of the puzzle, input the numbers separated by spaces then press enter")
-        init_state = []
-        for i in range(nb_tiles):
-            row = input()
-            row = row.split()
-            init_state.append([])
-            for j in range(nb_tiles):
-                init_state[i].append(int(row[j]))
-        init_state = np.array(init_state)
-        goal_state = get_goal_state(nb_tiles)
-    print("Which heuristic ? manhattan / misplaced_tiles")
+        print("Do you want to write your puzzle on the terminal (1) or input a puzzle from a file (2)")
+        c = int(input())
+        if c==1:
+            print("For each row of the puzzle, input the numbers separated by spaces then press enter")
+            init_state = []
+            for i in range(nb_tiles):
+                row = input()
+                row = row.split()
+                init_state.append([])
+                for j in range(nb_tiles):
+                    init_state[i].append(int(row[j]))
+            init_state = np.array(init_state)
+            goal_state = get_goal_state(nb_tiles)
+        else:
+            init_state = np.loadtxt('file.txt').astype(int)
+            if(nb_tiles!= len(init_state)):
+                print("The size of the puzzle in your file should correspond to the number of tiles you have chosen, modify your file or start again with the corresponding number of tiles")
+                return 
+            goal_state = get_goal_state(nb_tiles)
+    print("Which heuristic ? manhattan / misplaced_tiles/ 0 {for no heuristic -> UCS}")
     heuristic = input()
     print("Compare algorithms (1) or find a solution (2) ?")
     i = int(input())
@@ -52,24 +60,30 @@ def main():
     else:
         solver_1 = Astar(init_state,goal_state,heuristic)
         start = time.time()
-        solver_1.solve()
+        max_queue=solver_1.solve()
         end = time.time()
         print("elapsed time for A*:",end-start)
+        print("space complexity ; max frontier size for A*:",max_queue)
         solver_2 = BiSearchA(init_state,goal_state,heuristic)
         start = time.time()
-        solver_2.solve()
+        max_queue=solver_2.solve()
         end = time.time()
         print("elapsed time for BiSearch A*:",end-start)
+        print("space complexity ; max frontier size for BiSearch BFS for frontier1:",max_queue[0])
+        print("space complexity ; max frontier size for BiSearch BFS for frontier2:",max_queue[1])
         solver_2 = BiSearch(init_state,goal_state,heuristic)
         start = time.time()
-        solver_2.solve()
+        max_queue=solver_2.solve()
         end = time.time()
         print("elapsed time for BiSearch BFS:",end-start)
+        print("space complexity ; max frontier size for BiSearch BFS for frontier1:",max_queue[0])
+        print("space complexity ; max frontier size for BiSearch BFS for frontier2:",max_queue[1])
         solver_2 = BFS(init_state,goal_state)
         start = time.time()
-        solver_2.solve()
+        max_queue=solver_2.solve()
         end = time.time()
         print("elapsed time for BFS:",end-start)
+        print("space complexity ; max frontier size for BFS:",max_queue)
 
 
             

@@ -18,7 +18,9 @@ class Astar:
         pt_queue = PriorityQueue()
         debut_node = Node(self.init_state,self.goal_state,heuristic=self.heuristic)
         pt_queue.put(debut_node)
+        queuesize = []
         while not pt_queue.empty():
+            queuesize.append(pt_queue.qsize())
             popped_node = pt_queue.get()
             #If the node was already explored
             if str(popped_node.state) in explored_states:
@@ -38,6 +40,8 @@ class Astar:
                     continue
                 #pt_queue.insert(son)
                 pt_queue.put(son)
+        max_number = max(queuesize)
+        return max_number
                 
     def astar(self):
         exp=[]

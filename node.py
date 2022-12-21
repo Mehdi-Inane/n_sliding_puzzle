@@ -82,7 +82,8 @@ class Node():
     def calculate_fitness(self):
             if self.heuristic== "misplaced_tiles":
                 for current_state, goal_state in zip(self.state.current_state, self.state.goal_state):
-                    if current_state != goal_state:
+                    #if current_state != goal_state:
+                    if not np.array_equal(current_state, goal_state):
                         self.n+= 1
             elif self.heuristic == "manhattan":
                 for i in range(len(self.state.current_state )):
