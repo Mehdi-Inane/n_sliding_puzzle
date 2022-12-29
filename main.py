@@ -10,6 +10,8 @@ import numpy as np
 
 
 def compare_heuristics(algo,init_state,goal_state):
+    print(init_state)
+    print(goal_state)
     if algo =="A*":
         solver_m = Astar(init_state,goal_state,"manhattan")
         solver_h = Astar(init_state,goal_state,"misplaced_tiles")
@@ -57,21 +59,23 @@ def main():
                 print("The size of the puzzle in your file should correspond to the number of tiles you have chosen, modify your file or start again with the corresponding number of tiles")
                 return 
             goal_state = get_goal_state(nb_tiles)
-    print("Which heuristic ? manhattan / misplaced_tiles/ 0 {for no heuristic -> UCS}")
-    heuristic = input()
     print("Compare algorithms (1) or find a solution (2) ?")
     i = int(input())
     if i ==2:
-        print("What algorithm do you want to use ? 1 - A* 2 - Bidirectional search BFS 3- Bidirectional search A* 4- BFS")
+        print("What algorithm do you want to use ? 1 - A* 2 - Bidirectional search BFS 3- Bidirectional search A* 4- BFS 5- UCS")
         i = int(input())
+        print("Which heuristic ? manhattan / misplaced_tiles/ 0 {for no heuristic -> UCS}")
+        heuristic = input()
         if i == 1:
             solver = Astar(init_state,goal_state,heuristic)
         elif i == 2:
             solver = BiSearch(init_state,goal_state,heuristic)
         elif i ==3:
             solver = BiSearchA(init_state,goal_state,heuristic)
-        else:
+        elif i == 4:
             solver = BFS(init_state,goal_state)
+        else: #UCS
+            solver = Astar(init_state,goal_state,None)
         start = time.time()
         solver.solve()
         end = time.time()
@@ -83,10 +87,12 @@ def main():
             print("A* (1) or Bidirectional search A* (2) ? ")
             i = int(input())
             if i == 1:
-                compare_heuristics("A*")
+                compare_heuristics("A*",init_state,goal_state)
             else:
-                compare_heuristics("BiA")
+                compare_heuristics("BiA",init_state,goal_state)
         else:
+            print("Which heuristic ? manhattan / misplaced_tiles/ 0 {for no heuristic -> UCS}")
+            heuristic = input()
             solver_1 = Astar(init_state,goal_state,heuristic)
             start = time.time()
             max_queue=solver_1.solve()
@@ -119,9 +125,6 @@ def main():
             end = time.time()
             print("elapsed time for BFS:",end-start)
             print("space complexity ; max frontier size for BFS:",max_queue)
-
-
-            
 
 
 main()

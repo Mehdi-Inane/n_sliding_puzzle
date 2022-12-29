@@ -21,10 +21,9 @@ def check_if_square(n):
         return False
 
 class Puzzle():
-    def __init__(self,initial_state,goal_state,nb_iter = 0,parent_puzzle= None,heuristic = "manhattan"):
+    def __init__(self,initial_state,goal_state,nb_iter = 0,parent_puzzle= None):
         self.current_state = initial_state
         self.goal_state = goal_state
-        self.heuristic = heuristic
         self.dim = initial_state.shape[0]
         for i in range(self.dim):
             for j in range(self.dim):
