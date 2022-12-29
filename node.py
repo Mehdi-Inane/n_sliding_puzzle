@@ -90,6 +90,7 @@ class Node():
                     for j in range(len(self.state.current_state )):
                         x,y=find_elem(self.state.goal_state,self.state.current_state[i][j])
                         self.n+=self.manhattan(i, j, x, y) 
+                        
             else:
                 self.n+=0
                 #print('Unknown heuristic function is being used.')

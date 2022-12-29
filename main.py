@@ -7,6 +7,25 @@ import time
 import numpy as np
 
 
+
+
+def compare_heuristics(algo,init_state,goal_state):
+    if algo =="A*":
+        solver_m = Astar(init_state,goal_state,"manhattan")
+        solver_h = Astar(init_state,goal_state,"misplaced_tiles")
+    else:
+        solver_m = BiSearchA(init_state,goal_state,"manhattan")
+        solver_h = BiSearchA(init_state,goal_state,"misplaced_tiles")
+    start = time.time()
+    solver_m.solve()
+    end = time.time()
+    print("Elapsed time for the Manhattan distance with the " + algo + "algorithm" + str(end - start) + "seconds")
+    start = time.time()
+    solver_h.solve()
+    end = time.time()
+    print("Elapsed time for the Hamming distance with the " + algo + "algorithm" + str(end - start) + "seconds")
+
+
 def main():
     print("Do you want to generate a random puzzle (1) or input a puzzle (2)")
     i = int(input())
@@ -58,32 +77,42 @@ def main():
         end = time.time()
         print("elapsed time : ",end - start)
     else:
-        solver_1 = Astar(init_state,goal_state,heuristic)
-        start = time.time()
-        max_queue=solver_1.solve()
-        end = time.time()
-        print("elapsed time for A*:",end-start)
-        print("space complexity ; max frontier size for A*:",max_queue)
-        solver_2 = BiSearchA(init_state,goal_state,heuristic)
-        start = time.time()
-        max_queue=solver_2.solve()
-        end = time.time()
-        print("elapsed time for BiSearch A*:",end-start)
-        print("space complexity ; max frontier size for BiSearch BFS for frontier1:",max_queue[0])
-        print("space complexity ; max frontier size for BiSearch BFS for frontier2:",max_queue[1])
-        solver_2 = BiSearch(init_state,goal_state,heuristic)
-        start = time.time()
-        max_queue=solver_2.solve()
-        end = time.time()
-        print("elapsed time for BiSearch BFS:",end-start)
-        print("space complexity ; max frontier size for BiSearch BFS for frontier1:",max_queue[0])
-        print("space complexity ; max frontier size for BiSearch BFS for frontier2:",max_queue[1])
-        solver_2 = BFS(init_state,goal_state)
-        start = time.time()
-        max_queue=solver_2.solve()
-        end = time.time()
-        print("elapsed time for BFS:",end-start)
-        print("space complexity ; max frontier size for BFS:",max_queue)
+        print("Do you want to compare heuristics (1), or algorithms (2)?")
+        i = int(input())
+        if i == 1:
+            print("A* (1) or Bidirectional search A* (2) ? ")
+            i = int(input())
+            if i == 1:
+                compare_heuristics("A*")
+            else:
+                compare_heuristics("BiA")
+        else:
+            solver_1 = Astar(init_state,goal_state,heuristic)
+            start = time.time()
+            max_queue=solver_1.solve()
+            end = time.time()
+            print("elapsed time for A*:",end-start)
+            print("space complexity ; max frontier size for A*:",max_queue)
+            solver_2 = BiSearchA(init_state,goal_state,heuristic)
+            start = time.time()
+            max_queue=solver_2.solve()
+            end = time.time()
+            print("elapsed time for BiSearch A*:",end-start)
+            print("space complexity ; max frontier size for BiSearch BFS for frontier1:",max_queue[0])
+            print("space complexity ; max frontier size for BiSearch BFS for frontier2:",max_queue[1])
+            solver_2 = BiSearch(init_state,goal_state,heuristic)
+            start = time.time()
+            max_queue=solver_2.solve()
+            end = time.time()
+            print("elapsed time for BiSearch BFS:",end-start)
+            print("space complexity ; max frontier size for BiSearch BFS for frontier1:",max_queue[0])
+            print("space complexity ; max frontier size for BiSearch BFS for frontier2:",max_queue[1])
+            solver_2 = BFS(init_state,goal_state)
+            start = time.time()
+            max_queue=solver_2.solve()
+            end = time.time()
+            print("elapsed time for BFS:",end-start)
+            print("space complexity ; max frontier size for BFS:",max_queue)
 
 
             

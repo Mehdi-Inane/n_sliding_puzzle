@@ -27,23 +27,24 @@ class BiSearchA:
             #Checking if a common state is found
             if len(self.src_visited.intersection(self.dest_visited)) != 0:
                 print("ok")
+                print(show_family(popped_node))
                 break
             queue_src_size.append(self.src_queue.qsize())
             popped_node = self.src_queue.get()[1]
-            if str(popped_node.state) not in self.src_visited:
-                self.src_visited.add(str(popped_node.state))
+            if popped_node.state not in self.src_visited:
+                self.src_visited.add(popped_node.state)
                 neighbours = popped_node.expand()
                 for son in neighbours:
-                    if str(son.state) in self.src_visited:
+                    if son.state in self.src_visited:
                         continue
                     self.src_queue.put((son.n,son))
             queue_dest_size.append(self.dest_queue.qsize())
             popped_node = self.dest_queue.get()[1]
-            if str(popped_node.state) not in self.dest_visited:
-                self.dest_visited.add(str(popped_node.state))
+            if popped_node.state not in self.dest_visited:
+                self.dest_visited.add(popped_node.state)
                 neighbours = popped_node.expand()
                 for son in neighbours:
-                    if str(son.state) in self.dest_visited:
+                    if son.state in self.dest_visited:
                         continue
                     self.dest_queue.put((son.n,son))
         max_number1,max_number2 = max(queue_src_size),max(queue_dest_size)

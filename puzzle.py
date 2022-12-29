@@ -41,6 +41,9 @@ class Puzzle():
     def __str__(self):
         return str(self.current_state)
 
+
+    def __hash__(self):
+        return hash(tuple(map(tuple,(self.current_state))))
     
     
     def show_game(self):
