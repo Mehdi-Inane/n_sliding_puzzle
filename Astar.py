@@ -23,10 +23,10 @@ class Astar:
             queuesize.append(pt_queue.qsize())
             popped_node = pt_queue.get()
             #If the node was already explored
-            if str(popped_node.state) in explored_states:
+            if popped_node.state in explored_states:
                 continue
             else:
-                explored_states.add(str(popped_node.state))            
+                explored_states.add(popped_node.state)        
             #If the node contains the goal state
             if popped_node.state.is_goal_state():
                 print("ok")
@@ -36,7 +36,7 @@ class Astar:
                 break
             neighbours = popped_node.expand()
             for son in neighbours:
-                if str(son.state) in explored_states:
+                if son.state in explored_states:
                     continue
                 #pt_queue.insert(son)
                 pt_queue.put(son)

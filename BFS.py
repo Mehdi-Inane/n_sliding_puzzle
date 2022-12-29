@@ -20,7 +20,7 @@ class BFS:
 		while not queue.empty():
 			queuesize.append(queue.qsize())
 			popped_node = queue.get()
-			if str(popped_node.state) in visited:
+			if popped_node.state in visited:
 				continue
 			if popped_node.state.is_goal_state():
 				print("ok")
@@ -28,9 +28,9 @@ class BFS:
 				path_found = True
 				break
 			for node_next in popped_node.expand():
-				if str(node_next.state) not in visited:
+				if node_next.state not in visited:
 					queue.put(node_next)
-			visited.add(str(popped_node.state))
+			visited.add(popped_node.state)
 		max_number = max(queuesize)
 		return max_number
     	
