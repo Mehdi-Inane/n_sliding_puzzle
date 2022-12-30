@@ -53,7 +53,7 @@ class BiSearch:
             if self.dest_queue.qsize()>max_number_dest:
                 max_number_dest=self.dest_queue.qsize()
             if popped_node.state not in self.dest_visited:
-                self.dest_visited.add(str(popped_node.state))
+                self.dest_visited.add(popped_node.state)
                 neighbours = popped_node.expand()
                 for son in neighbours:
                     if son.state in self.dest_visited:
