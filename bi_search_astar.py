@@ -24,8 +24,8 @@ class BiSearchA:
         goal_node = Node(self.goal_state,self.init_state,heuristic=self.heuristic)
         self.src_queue.append((0,debut_node))
         self.dest_queue.append((0,goal_node))
-        queue_src_size = []
-        queue_dest_size = []
+        max_number_src=0
+        max_number_dest=0
         while (self.src_queue and self.dest_queue):
             
             
@@ -40,7 +40,8 @@ class BiSearchA:
                     #Displaying the path
                     print(show_path_two_sides(left_path_start,right_path_start))
                 break
-            queue_src_size.append(len(self.src_queue))
+            if len(self.src_queue)>max_number_src:
+                max_number_src=len(self.src_queue)
             #Starting the search from the source node
             popped_node = heapq.heappop(self.src_queue)[1]
             if popped_node.state not in self.src_visited:
@@ -51,7 +52,8 @@ class BiSearchA:
                     if son.state in self.src_visited:
                         continue
                     heapq.heappush(self.src_queue,(son.f,son))
-            queue_dest_size.append(len(self.dest_queue))
+            if len(self.dest_queue)>max_number_dest:
+                max_number_dest=len(self.dest_queue)
             #Starting the search from the goal node
             popped_node = heapq.heappop(self.dest_queue)[1]
             if popped_node.state not in self.dest_visited:
@@ -62,6 +64,5 @@ class BiSearchA:
                     if son.state in self.dest_visited:
                         continue
                     heapq.heappush(self.dest_queue,(son.f,son))
-        max_number1,max_number2 = max(queue_src_size),max(queue_dest_size)
-        return max_number1,max_number2
+        return max_number_src,max_number_dest
 

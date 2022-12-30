@@ -25,8 +25,8 @@ class BiSearch:
         goal_node = Node(self.goal_state,self.init_state,heuristic=self.heuristic)
         self.src_queue.put(debut_node)
         self.dest_queue.put(goal_node)
-        queue_src_size = []
-        queue_dest_size = []
+        max_number_src=0
+        max_number_dest=0
         while not (self.src_queue.empty() or self.dest_queue.empty()):
             #Checking if a common state is found --> A path exists
             intersection = self.src_visited.intersection(self.dest_visited)
@@ -38,7 +38,8 @@ class BiSearch:
                     #Displaying the path
                     print(show_path_two_sides(left_path_start,right_path_start))
                 break
-            queue_src_size.append(self.src_queue.qsize())
+            if self.src_queue.qsize()>max_number_src:
+                max_number_src=self.src_queue.qsize()
             #Starting the search from the source node
             popped_node = self.src_queue.get()
             if popped_node.state not in self.src_visited:
@@ -48,9 +49,9 @@ class BiSearch:
                     if son.state in self.src_visited:
                         continue
                     self.src_queue.put(son)
-            queue_dest_size.append(self.dest_queue.qsize())
             #Starting the search from the goal node
-            popped_node = self.dest_queue.get()
+            if self.dest_queue.qsize()>max_number_dest:
+                max_number_dest=self.dest_queue.qsize()
             if popped_node.state not in self.dest_visited:
                 self.dest_visited.add(str(popped_node.state))
                 neighbours = popped_node.expand()
@@ -58,5 +59,4 @@ class BiSearch:
                     if son.state in self.dest_visited:
                         continue
                     self.dest_queue.put(son)
-        max_number1,max_number2 = max(queue_src_size),max(queue_dest_size)
-        return max_number1,max_number2
+        return max_number_src,max_number_dest

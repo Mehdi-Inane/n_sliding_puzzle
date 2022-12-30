@@ -84,6 +84,9 @@ def main():
             solver = Astar(init_state,goal_state,heuristic)
         elif i == 2:
             solver = BiSearch(init_state,goal_state,heuristic)
+            maxx=solver.solve()
+            print("space complexity ; max frontier size for BiSearch BFS for frontier1:",maxx[0])
+            print("space complexity ; max frontier size for BiSearch BFS for frontier2:",maxx[1])
         elif i ==3:
             solver = BiSearchA(init_state,goal_state,heuristic)
         elif i == 4:

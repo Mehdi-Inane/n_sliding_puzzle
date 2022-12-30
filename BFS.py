@@ -16,9 +16,10 @@ class BFS:
 		debut_node=Node(self.init_state,self.goal_state,heuristic=None)
 		queue.put(debut_node)
 		path_found = False
-		queuesize = []
+		max_number=0
 		while not queue.empty():
-			queuesize.append(queue.qsize())
+			if queue.qsize()>max_number:
+				max_number=queue.qsize()
 			popped_node = queue.get()
 			if popped_node.state in visited:
 				continue
@@ -33,6 +34,5 @@ class BFS:
 				if node_next.state not in visited:
 					queue.put(node_next)
 			visited.add(popped_node.state)
-		max_number = max(queuesize)
 		return max_number,path
 
