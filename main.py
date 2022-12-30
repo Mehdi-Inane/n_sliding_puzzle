@@ -31,18 +31,22 @@ def compare_heuristics(algo,init_state,goal_state):
 def main():
     print("Do you want to generate a random puzzle (1) or input a puzzle (2)")
     i = int(input())
-    print("How many tiles (n*n) ?")
-    nb_tiles = int(input())
     if i == 1:
+        print("How many tiles (n*n) ?")
+        nb_tiles = int(input())
         print("How many shuffles ?")
         nb_shuffles = int(input())
         puzzle = generate_random(nb_tiles,nb_shuffles)
         init_state = puzzle.current_state
         goal_state = puzzle.goal_state
+        print("Generated puzzle :")
+        puzzle.show_game()
     else:
         print("Do you want to write your puzzle on the terminal (1) or input a puzzle from a file (2)")
         c = int(input())
         if c==1:
+            print("How many tiles (n*n) ?")
+            nb_tiles = int(input())
             print("For each row of the puzzle, input the numbers separated by spaces then press enter")
             init_state = []
             for i in range(nb_tiles):
@@ -53,12 +57,22 @@ def main():
                     init_state[i].append(int(row[j]))
             init_state = np.array(init_state)
             goal_state = get_goal_state(nb_tiles)
+
         else:
-            init_state = np.loadtxt('file.txt').astype(int)
-            if(nb_tiles!= len(init_state)):
-                print("The size of the puzzle in your file should correspond to the number of tiles you have chosen, modify your file or start again with the corresponding number of tiles")
-                return 
+            print("please input the path of the file")
+            filename = input()
+            init_state,nb_tiles = get_from_txt(filename)
             goal_state = get_goal_state(nb_tiles)
+
+        print("Puzzle to be solved :")
+        puz = Puzzle(init_state,goal_state)
+        puz.show_game()
+        print("Checking if this puzzle is solvable...")
+        if not puz.is_solvable():
+            print("This puzzle is not solvable")
+            return 0
+        else:
+            print("This puzzle is solvable ! Moving to the next choices...")
     print("Compare algorithms (1) or find a solution (2) ?")
     i = int(input())
     if i ==2:
@@ -77,7 +91,7 @@ def main():
         else: #UCS
             solver = Astar(init_state,goal_state,None)
         start = time.time()
-        solver.solve()
+        solver.solve(True)
         end = time.time()
         print("elapsed time : ",end - start)
     else:
@@ -95,7 +109,7 @@ def main():
             heuristic = input()
             solver_1 = Astar(init_state,goal_state,heuristic)
             start = time.time()
-            max_queue=solver_1.solve()
+            max_queue,path=solver_1.solve()
             end = time.time()
             print("elapsed time for A*:",end-start)
             print("space complexity ; max frontier size for A*:",max_queue)
@@ -115,13 +129,13 @@ def main():
             print("space complexity ; max frontier size for BiSearch BFS for frontier2:",max_queue[1])
             solver_1 = Astar(init_state,goal_state,None)
             start = time.time()
-            max_queue=solver_1.solve()
+            max_queue,path=solver_1.solve()
             end = time.time()
-            print("elapsed time for UCS*:",end-start)
+            print("elapsed time for UCS:",end-start)
             print("space complexity ; max frontier size for A*:",max_queue)
             solver_2 = BFS(init_state,goal_state)
             start = time.time()
-            max_queue=solver_2.solve()
+            max_queue,path=solver_2.solve()
             end = time.time()
             print("elapsed time for BFS:",end-start)
             print("space complexity ; max frontier size for BFS:",max_queue)
