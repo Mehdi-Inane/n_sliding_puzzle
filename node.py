@@ -154,8 +154,8 @@ def show_path_two_sides(node_1,node_2):
         curr = curr.parent_node
     if curr:
         ret.append(curr)
-    for i in range(len(ret)):
-        nod = ret[i]
+    for i in range(len(ret) - 1):
+        nod = ret[i+1]
         print("step",i+n)
         if i>= 1:
             temp = ret[i-1]

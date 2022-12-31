@@ -7,7 +7,7 @@ sys.setrecursionlimit(1000000)
 class BiSearch:
 
 
-    def __init__(self,init_state,goal_state,heuristic):
+    def __init__(self,init_state,goal_state):
         #Source frontier
         self.src_queue = queue.Queue()
         #Destination frontier
@@ -15,14 +15,17 @@ class BiSearch:
         #Sets of closed states
         self.src_visited = set()
         self.dest_visited = set()
+        self.src_dict = {}
+        self.dest_dict = {}
+        #Dictionaries of (state : node) to retrace the path from source to intersection node
+        #Then from intersection node to destination
         self.init_state = init_state
         self.goal_state = goal_state
-        self.heuristic = heuristic
     
     
     def solve(self,show_path = False):
-        debut_node = Node(self.init_state,self.goal_state,heuristic=self.heuristic)
-        goal_node = Node(self.goal_state,self.init_state,heuristic=self.heuristic)
+        debut_node = Node(self.init_state,self.goal_state,heuristic=None)
+        goal_node = Node(self.goal_state,self.init_state,heuristic=None)
         self.src_queue.put(debut_node)
         self.dest_queue.put(goal_node)
         max_number_src=0
@@ -44,6 +47,7 @@ class BiSearch:
             popped_node = self.src_queue.get()
             if popped_node.state not in self.src_visited:
                 self.src_visited.add(popped_node.state)
+                self.src_dict[popped_node.state] = popped_node
                 neighbours = popped_node.expand()
                 for son in neighbours:
                     if son.state in self.src_visited:
@@ -52,8 +56,10 @@ class BiSearch:
             #Starting the search from the goal node
             if self.dest_queue.qsize()>max_number_dest:
                 max_number_dest=self.dest_queue.qsize()
+            popped_node = self.dest_queue.get()
             if popped_node.state not in self.dest_visited:
                 self.dest_visited.add(popped_node.state)
+                self.dest_dict[popped_node.state] = popped_node
                 neighbours = popped_node.expand()
                 for son in neighbours:
                     if son.state in self.dest_visited:

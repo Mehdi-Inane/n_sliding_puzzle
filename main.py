@@ -78,16 +78,18 @@ def main():
     if i ==2:
         print("What algorithm do you want to use ? 1 - A* 2 - Bidirectional search BFS 3- Bidirectional search A* 4- BFS 5- UCS")
         i = int(input())
-        print("Which heuristic ? manhattan / misplaced_tiles/ 0 {for no heuristic -> UCS}")
-        heuristic = input()
         if i == 1:
+            print("Which heuristic ? manhattan / misplaced_tiles/ 0 {for no heuristic -> UCS}")
+            heuristic = input()
             solver = Astar(init_state,goal_state,heuristic)
         elif i == 2:
-            solver = BiSearch(init_state,goal_state,heuristic)
+            solver = BiSearch(init_state,goal_state)
             maxx=solver.solve()
             print("space complexity ; max frontier size for BiSearch BFS for frontier1:",maxx[0])
             print("space complexity ; max frontier size for BiSearch BFS for frontier2:",maxx[1])
         elif i ==3:
+            print("Which heuristic ? manhattan / misplaced_tiles/ 0 {for no heuristic -> UCS}")
+            heuristic = input()
             solver = BiSearchA(init_state,goal_state,heuristic)
         elif i == 4:
             solver = BFS(init_state,goal_state)
@@ -123,7 +125,7 @@ def main():
             print("elapsed time for BiSearch A*:",end-start)
             print("space complexity ; max frontier size for BiSearch A* for frontier1:",max_queue[0])
             print("space complexity ; max frontier size for BiSearch A* for frontier2:",max_queue[1])
-            solver_2 = BiSearch(init_state,goal_state,heuristic)
+            solver_2 = BiSearch(init_state,goal_state)
             start = time.time()
             max_queue=solver_2.solve()
             end = time.time()
