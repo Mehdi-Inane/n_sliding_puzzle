@@ -90,12 +90,16 @@ class Puzzle():
             else:
                 return False
         else: # If the dim is even, then inv_nb + row index of the empty tile need to be odd
-            checker = self.empty_tile[0] +1 
-            if (checker + inv_nb) % 2 == 0:
-                return False
-            else:
+
+            pos_from_bottom = self.dim - self.empty_tile[0]
+            print("inv nb",inv_nb)
+            print("pos",pos_from_bottom)
+            if inv_nb % 2 == 0 and pos_from_bottom % 2 != 0:
                 return True
-    
+            elif inv_nb %2 != 0 and pos_from_bottom %2 == 0:
+                return True
+            return False
+
     
     #Available actions given the current configuration
     def available_actions(self):
